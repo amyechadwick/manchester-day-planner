@@ -8,6 +8,7 @@ import { FestivalMap } from "@/components/festival/FestivalMap";
 import { AmenityFinder } from "@/components/festival/AmenityFinder";
 import { ProgrammeList } from "@/components/festival/ProgrammeList";
 import { PersonaBar } from "@/components/festival/PersonaBar";
+import { BottomNav } from "@/components/festival/BottomNav";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -33,13 +34,22 @@ function Index() {
   return (
     <SessionProvider>
       <main className="min-h-screen bg-brand-cream text-brand-ink font-body selection:bg-brand-yellow pb-28 overflow-x-hidden">
-        <SimClockControl />
+        <div id="settings">
+          <SimClockControl />
+          <PersonaBar />
+        </div>
         <NowNextHero />
-        <ParadeTracker />
-        <FestivalMap />
+        <div id="parade">
+          <ParadeTracker />
+        </div>
+        <div id="map">
+          <FestivalMap />
+        </div>
         <AmenityFinder />
-        <ProgrammeList />
-        <PersonaBar />
+        <div id="itinerary">
+          <ProgrammeList />
+        </div>
+        <BottomNav />
       </main>
     </SessionProvider>
   );
