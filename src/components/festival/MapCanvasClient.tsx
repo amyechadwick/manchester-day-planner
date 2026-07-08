@@ -10,7 +10,7 @@ import {
   useMap,
   useMapEvents,
 } from "react-leaflet";
-import { KIND_META, MCR_CENTER, PARADE_ROUTE, type POI } from "@/data/festival";
+import { KIND_META, MCR_CENTER, PARADE_ROUTE, POIS, type POI } from "@/data/festival";
 import { useSession } from "@/state/session";
 import { distanceKm, walkMinutes, formatMinutes } from "@/lib/distance";
 
@@ -86,8 +86,6 @@ function HeatLayer({ active }: { active: boolean }) {
       if (s.includes("peter")) return "peter";
       return null;
     };
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const { POIS } = require("@/data/festival") as { POIS: POI[] };
     for (const p of POIS) {
       if (p.kind !== "event" && p.kind !== "parade_stop") continue;
       const s = p.startsAt ?? 0;
