@@ -7,7 +7,7 @@ export function PersonaBar() {
   const { persona, setPersona } = useSession();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t-4 border-brand-ink px-3 py-3 z-50 shadow-[0_-10px_30px_rgba(0,0,0,0.12)]">
+    <nav className="bg-white border-b-4 border-brand-ink px-3 py-3">
       <p className="text-[10px] font-bold uppercase tracking-widest mb-2 text-center opacity-50 italic">
         Who are you with today? Switch anytime.
       </p>
