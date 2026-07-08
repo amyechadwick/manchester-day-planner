@@ -4,6 +4,23 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Manchester Day brand tokens — locked palette from the 2026 poster. */
+@theme {
+  --color-brand-red: #E63329;
+  --color-brand-yellow: #FFD21F;
+  --color-brand-blue: #1E4FB8;
+  --color-brand-cream: #FBF3E2;
+  --color-brand-ink: #1A1A1A;
+  --font-display: "Bebas Neue", sans-serif;
+  --font-body: "Barlow", sans-serif;
+}
+
+@utility no-scrollbar {
+  &::-webkit-scrollbar { display: none; }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /*
  * Design system definition.
  *
