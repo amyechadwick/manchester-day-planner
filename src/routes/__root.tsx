@@ -86,15 +86,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "author", content: "ProductTank Manchester" },
       {
         property: "og:title",
-        content: "Manchester Day 2026 Companion",
+        content: "Manchester Day 2026 Companion — What's on, where, can you make it?",
       },
       {
         property: "og:description",
         content:
-          "Now, next, and can you make it in time — a mobile companion for Manchester Day 2026.",
+          "Mobile companion for Manchester Day 2026: what's next, walking-time countdown, parade tracker, accessible-friendly amenity finder, and a schedule-based crowd heatmap.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Manchester Day 2026 Companion — What's on, where, can you make it?" },
+      { name: "twitter:description", content: "Mobile companion for Manchester Day 2026: what's next, walking-time countdown, parade tracker, accessible-friendly amenity finder, and a schedule-based crowd heatmap." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/0a9ad0ac-999d-409c-8790-bf21d2bd0715/id-preview-a04d39c2--3d7a46f4-c52d-4fc4-84a7-e98ffb4f130e.lovable.app-1783538022716.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/0a9ad0ac-999d-409c-8790-bf21d2bd0715/id-preview-a04d39c2--3d7a46f4-c52d-4fc4-84a7-e98ffb4f130e.lovable.app-1783538022716.png" },
     ],
     links: [
       {
