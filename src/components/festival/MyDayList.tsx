@@ -72,14 +72,15 @@ export function MyDayList() {
         <p className="text-[10px] uppercase font-bold tracking-widest opacity-60">
           {items.length} saved · walking times at {PERSONAS[persona].label.toLowerCase()} pace
         </p>
-        <button
-          type="button"
-          onClick={clearAgenda}
-          className="font-display text-sm border-2 border-brand-ink px-2 py-1 leading-none hover:bg-brand-red hover:text-brand-cream transition"
-        >
-          CLEAR
-        </button>
-      </div>
+        {!trackSelected && (
+          <button
+            type="button"
+            onClick={clearAgenda}
+            className="font-display text-sm border-2 border-brand-ink px-2 py-1 leading-none hover:bg-brand-red hover:text-brand-cream transition"
+          >
+            CLEAR
+          </button>
+        )}
       </div>
 
       <ol className="space-y-2">
