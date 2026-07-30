@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import posterImg from "@/assets/manchester-day-poster.jpg";
 import { NowNextHero } from "@/components/festival/NowNextHero";
+import { PersonaBar } from "@/components/festival/PersonaBar";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -45,6 +46,13 @@ function Index() {
   return (
     <>
       <NowNextHero />
+      <section className="px-5 py-6 bg-brand-cream">
+        <h2 className="font-display text-3xl leading-none mb-2">PICK YOUR TRACK</h2>
+        <p className="text-sm opacity-80 mb-4">
+          Not wanting to spend time planning your day? Select a track most suitable for you.
+        </p>
+        <PersonaBar />
+      </section>
       <section className="px-5 pb-12">
         <h2 className="font-display text-4xl leading-none mb-4">JUMP IN</h2>
         <div className="grid gap-3">
