@@ -296,7 +296,7 @@ const EVENTS: POI[] = [
     startsAt: t("12:00"),
     endsAt: t("14:00"),
     area: "St Peter's Sq",
-    personaBoost: ["families", "culture"],
+    personaBoost: ["families", "culture", "young"],
   },
   {
     id: "ev-choir",
@@ -340,7 +340,7 @@ const EVENTS: POI[] = [
     startsAt: t("12:00"),
     endsAt: t("17:00"),
     area: "St Peter's Sq",
-    personaBoost: ["families"],
+    personaBoost: ["families", "young"],
   },
   {
     id: "ev-catalan-market",
@@ -351,7 +351,7 @@ const EVENTS: POI[] = [
     startsAt: t("12:00"),
     endsAt: t("17:00"),
     area: "Deansgate",
-    personaBoost: ["elderly", "young", "wheelchair", "culture", "foodie"],
+    personaBoost: ["elderly", "young", "wheelchair", "culture", "foodie", "families", "music"],
   },
 ];
 
