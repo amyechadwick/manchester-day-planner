@@ -1,24 +1,23 @@
-# Complete track routes on the map
+# Track-driven My Day, with a "choose my own day" escape hatch
 
-## What's wrong now
+## What changes for the user
 
-The "TRACK ROUTE" layer only shows POIs whose `personaBoost` list contains the selected track. Given the current data:
+1. **Picking a track fills My Day for you.** Selecting a track on the home page automatically loads that track's stops (all of them, in time order) into My Day. Switching tracks swaps the itinerary for the new track's stops. My Day is no longer empty by default.
+2. **A clear escape hatch.** Above/below the track itinerary on the Itinerary page there's a prompt: "This itinerary doesn't work for you? Pick your own." with a button **CHOOSE MY OWN DAY**. Pressing it clears My Day, deselects the track on the home page, and leaves you free to add items yourself from the programme and parade pages.
+3. **No track selected state.** With no track chosen, the home page track buttons are all unselected, the map's track-route layer is hidden, and My Day only contains what you add manually.
+4. **"Picked for you" removed** from the programme list; boosted events keep no special label.
 
-- None of the 7 parade stops have a `personaBoost` value, so **no parade stop ever appears on a track route**, even though the code intends to include them.
-- Boosted event counts are very uneven: Culture 12, Families 8, Elderly 7, Young 7, Music 5, Wheelchair 3, **Foodie 1**. A track can render as a 1–3 stop line that looks broken.
+## Behaviour details
 
-The pin numbers themselves don't skip integers (pins are numbered 1..n in time order), but stops are genuinely missing from each track, which is what reads as "missing numbers".
-
-## The fix
-
-1. Tag every parade stop with tracks so parade stops appear on track routes, with per-track sense kept: the Wheelchair track uses the stops with accessible viewing nearby; other tracks get the full stop list.
-2. Fill in track tags across the event list so every track has a coherent, day-long route (roughly 6–9 stops spread across 12:00–17:00) instead of one or two.
-3. Foodie track additionally includes the food stops (tapas, paella, churros, picnic) so it forms a real trail.
-4. Track panel shows the true stop count, and when a stop is intentionally dropped for a track (e.g. non step-free for Wheelchair) it says so in one line rather than silently omitting it.
-5. Guarantee for both the map and the track itinerary list: every stop belonging to the selected track is rendered, numbered 1, 2, 3 … n in time order with no gaps, and the same numbering is used on the map pins and in the list so they match one-to-one.
+- Track selected -> My Day = that track's stops (manual adds/removes on top still work; you can remove individual items).
+- "Choose my own day" -> My Day empty, no track selected, manual mode.
+- Choosing a track again after that re-fills My Day from the track.
 
 ## Technical notes
 
-- `src/data/festival.ts`: add `personaBoost` to each entry in `PARADE_STOPS`; broaden and rebalance `personaBoost` on events. `POI` shape unchanged.
-- `src/components/festival/FestivalMap.tsx`: extend the `trackPois` filter so the Foodie track also admits `kind: "food"`, keep the time-order sort and contiguous numbering.
-- No other changes to map rendering, agenda, or amenity logic beyond the count/copy line in the track panel.
+- `src/state/session.tsx`: allow `persona: Persona | null` (default `null`, persisted). Add a `mode`-free approach: `setPersona(p)` also replaces `agenda` with `trackStops(p)` ids; new `chooseMyOwnDay()` sets persona to `null` and agenda to `[]`. Persist both to localStorage.
+- Everywhere persona is consumed for pace/labels (`walkKmh`, `PERSONAS[persona]`), fall back to a neutral default (families walk speed / "your" pace wording) when persona is `null`: `MyDayList`, `TrackList`, `FestivalMap`, `AmenityFinder`, `ProgrammeList`, `NowNextHero`, `ParadeTracker`.
+- `PersonaBar`: no button active when persona is `null`; clicking a track sets it.
+- `FestivalMap`: hide the "TRACK ROUTE" filter button and track panel when persona is `null`; reset `active` filter if it was the track layer.
+- `src/routes/itinerary.tsx` / `MyDayList.tsx`: add the call-to-action block with the **CHOOSE MY OWN DAY** button wired to `chooseMyOwnDay()`; show it only when a track is selected. Hide the "YOUR TRACK" section when no track is selected.
+- `ProgrammeList.tsx`: remove the "Picked for you" line (keep the boosted highlight styling only when a track is selected).
