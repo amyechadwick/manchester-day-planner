@@ -5,7 +5,7 @@ import { useSession } from "@/state/session";
 import { AgendaButton } from "./AgendaButton";
 
 export function ProgrammeList() {
-  const { simNow, persona } = useSession();
+  const { simNow, persona, trackSelected } = useSession();
 
   const grouped = useMemo(() => {
     const events = POIS.filter((p) => p.kind === "event" && p.startsAt != null).sort(
@@ -28,9 +28,11 @@ export function ProgrammeList() {
     <section className="px-5 py-12 pb-40 bg-white border-t-4 border-brand-ink">
       <div className="flex justify-between items-end mb-8">
         <h3 className="font-display text-5xl leading-none">PROGRAMME</h3>
-        <span className="text-[10px] uppercase font-bold tracking-widest opacity-60">
-          Boosted for {persona}
-        </span>
+        {trackSelected && (
+          <span className="text-[10px] uppercase font-bold tracking-widest opacity-60">
+            Boosted for {persona}
+          </span>
+        )}
       </div>
 
       <div className="space-y-10">
@@ -43,7 +45,7 @@ export function ProgrammeList() {
               </p>
               <ul className="space-y-2">
                 {items.map((e) => {
-                  const boosted = e.personaBoost?.includes(persona);
+                  const boosted = trackSelected && e.personaBoost?.includes(persona);
                   return (
                     <li
                       key={e.id}
@@ -57,11 +59,6 @@ export function ProgrammeList() {
                       <div className="min-w-0">
                         <p className="font-semibold text-sm">{e.name}</p>
                         <p className="text-[11px] opacity-70">{e.area}</p>
-                        {boosted && (
-                          <p className="text-[10px] uppercase font-bold tracking-widest text-brand-red mt-1">
-                            Picked for you
-                          </p>
-                        )}
                       </div>
                       <div className="text-right shrink-0">
                         <p className="font-display text-xl leading-none">
