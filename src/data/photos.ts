@@ -61,11 +61,14 @@ export interface SeedPhoto {
   likes: number;
 }
 
-function imageKeyFor(p: POI, salt: number): PhotoImageKey {
-  if (p.kind === "food") return "food";
-  if (p.kind === "parade_stop") return salt % 2 === 0 ? "parade" : "samba";
+function imageKeyFor(p: POI, variant: number): PhotoImageKey {
+  if (p.kind === "food") return variant % 2 === 0 ? "food" : "square";
+  if (p.kind === "parade_stop") {
+    const pool: PhotoImageKey[] = ["parade", "samba", "square"];
+    return pool[variant % pool.length];
+  }
   const pool: PhotoImageKey[] = ["stage", "craft", "square", "samba"];
-  return pool[salt % pool.length];
+  return pool[variant % pool.length];
 }
 
 /** Spots people can snap: events, parade stops and food stalls. */
@@ -87,7 +90,7 @@ export const SEED_PHOTOS: SeedPhoto[] = POIS.filter((p) =>
       poiId: p.id,
       author: AUTHORS[salt % AUTHORS.length],
       caption: CAPTIONS[(salt >> 2) % CAPTIONS.length],
-      imageKey: imageKeyFor(p, salt + i),
+      imageKey: imageKeyFor(p, h + i),
       takenAt: (p.startsAt ?? 13 * 60) + 5 + ((salt % 5) * 4),
       likes: 6 + (salt % 140),
     } satisfies SeedPhoto;
