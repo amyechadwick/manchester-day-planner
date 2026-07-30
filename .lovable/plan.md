@@ -15,6 +15,7 @@ The pin numbers themselves don't skip integers (pins are numbered 1..n in time o
 2. Fill in track tags across the event list so every track has a coherent, day-long route (roughly 6–9 stops spread across 12:00–17:00) instead of one or two.
 3. Foodie track additionally includes the food stops (tapas, paella, churros, picnic) so it forms a real trail.
 4. Track panel shows the true stop count, and when a stop is intentionally dropped for a track (e.g. non step-free for Wheelchair) it says so in one line rather than silently omitting it.
+5. Guarantee for both the map and the track itinerary list: every stop belonging to the selected track is rendered, numbered 1, 2, 3 … n in time order with no gaps, and the same numbering is used on the map pins and in the list so they match one-to-one.
 
 ## Technical notes
 
