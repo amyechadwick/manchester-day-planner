@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { MapPin, Route as RouteIcon, CalendarDays, Home } from "lucide-react";
+import { MapPin, Route as RouteIcon, CalendarDays, Home, Camera } from "lucide-react";
 import { useSession } from "@/state/session";
 
 const TABS = [
@@ -7,6 +7,7 @@ const TABS = [
   { to: "/parade", label: "PARADE", icon: RouteIcon },
   { to: "/map", label: "MAP", icon: MapPin },
   { to: "/itinerary", label: "MY DAY", icon: CalendarDays },
+  { to: "/day-share", label: "SHARE", icon: Camera },
 ] as const;
 
 export function BottomNav() {
@@ -23,10 +24,10 @@ export function BottomNav() {
               to={t.to}
               activeOptions={{ exact: t.to === "/" }}
               activeProps={{ className: "bg-brand-red" }}
-              className="relative flex-1 py-2 flex flex-col items-center gap-1 hover:bg-brand-red/80 transition"
+              className="relative flex-1 py-2 px-1 flex flex-col items-center gap-1 hover:bg-brand-red/80 transition"
             >
               <Icon className="size-5" strokeWidth={2.5} />
-              <span className="font-display text-[13px] leading-none tracking-wide">
+              <span className="font-display text-[11px] leading-none tracking-wide">
                 {t.label}
               </span>
               {t.to === "/itinerary" && agenda.length > 0 && (

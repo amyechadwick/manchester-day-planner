@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ParadeRouteImport } from './routes/parade'
 import { Route as MapRouteImport } from './routes/map'
 import { Route as ItineraryRouteImport } from './routes/itinerary'
+import { Route as DayShareRouteImport } from './routes/day-share'
 import { Route as IndexRouteImport } from './routes/index'
 
 const ParadeRoute = ParadeRouteImport.update({
@@ -29,6 +30,11 @@ const ItineraryRoute = ItineraryRouteImport.update({
   path: '/itinerary',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DayShareRoute = DayShareRouteImport.update({
+  id: '/day-share',
+  path: '/day-share',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -37,12 +43,14 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/day-share': typeof DayShareRoute
   '/itinerary': typeof ItineraryRoute
   '/map': typeof MapRoute
   '/parade': typeof ParadeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/day-share': typeof DayShareRoute
   '/itinerary': typeof ItineraryRoute
   '/map': typeof MapRoute
   '/parade': typeof ParadeRoute
@@ -50,20 +58,22 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/day-share': typeof DayShareRoute
   '/itinerary': typeof ItineraryRoute
   '/map': typeof MapRoute
   '/parade': typeof ParadeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/itinerary' | '/map' | '/parade'
+  fullPaths: '/' | '/day-share' | '/itinerary' | '/map' | '/parade'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/itinerary' | '/map' | '/parade'
-  id: '__root__' | '/' | '/itinerary' | '/map' | '/parade'
+  to: '/' | '/day-share' | '/itinerary' | '/map' | '/parade'
+  id: '__root__' | '/' | '/day-share' | '/itinerary' | '/map' | '/parade'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DayShareRoute: typeof DayShareRoute
   ItineraryRoute: typeof ItineraryRoute
   MapRoute: typeof MapRoute
   ParadeRoute: typeof ParadeRoute
@@ -92,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ItineraryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/day-share': {
+      id: '/day-share'
+      path: '/day-share'
+      fullPath: '/day-share'
+      preLoaderRoute: typeof DayShareRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -104,6 +121,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DayShareRoute: DayShareRoute,
   ItineraryRoute: ItineraryRoute,
   MapRoute: MapRoute,
   ParadeRoute: ParadeRoute,

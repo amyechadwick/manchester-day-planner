@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SessionProvider } from "@/state/session";
 import { SimClockControl } from "@/components/festival/SimClockControl";
 import { BottomNav } from "@/components/festival/BottomNav";
+import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -158,6 +159,7 @@ function RootComponent() {
           {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
           <Outlet />
           <BottomNav />
+          <Toaster position="top-center" />
         </main>
       </SessionProvider>
     </QueryClientProvider>
