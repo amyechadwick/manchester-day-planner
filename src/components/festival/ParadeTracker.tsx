@@ -2,6 +2,7 @@ import { PARADE_ROUTE } from "@/data/festival";
 import { formatClock } from "@/lib/distance";
 import { useSession } from "@/state/session";
 import { AgendaButton } from "./AgendaButton";
+import { Jorge } from "./Jorge";
 
 export function ParadeTracker() {
   const { simNow, setUserLocation } = useSession();
@@ -9,7 +10,10 @@ export function ParadeTracker() {
   return (
     <section className="px-5 py-12 bg-brand-blue text-brand-cream">
       <div className="flex items-end justify-between mb-6 border-b-2 border-brand-cream/30 pb-2">
-        <h3 className="font-display text-5xl leading-none">PARADE ROUTE</h3>
+        <div className="flex items-end gap-2">
+          <Jorge size="inline" />
+          <h3 className="font-display text-5xl leading-none">PARADE ROUTE</h3>
+        </div>
         <span className="text-[10px] uppercase font-bold tracking-widest opacity-70">
           Tap a stop
         </span>

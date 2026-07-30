@@ -4,6 +4,7 @@ import { MyDayList } from "@/components/festival/MyDayList";
 import { TrackList } from "@/components/festival/TrackList";
 import { ProgrammeList } from "@/components/festival/ProgrammeList";
 import { useSession } from "@/state/session";
+import { JorgeSays } from "@/components/festival/Jorge";
 
 export const Route = createFileRoute("/itinerary")({
   head: () => ({
@@ -38,6 +39,13 @@ function Itinerary() {
             <span className="text-brand-red">TRACK</span>
           </h1>
           <div className="border-2 border-brand-ink bg-brand-yellow p-4 mb-3">
+            <div className="mb-3">
+              <JorgeSays variant="full" size="medium">
+                <p className="text-sm">
+                  Jorge picked these stops for you — follow them in order.
+                </p>
+              </JorgeSays>
+            </div>
             <p className="font-display text-2xl leading-none">
               {PERSONAS[persona].label.toUpperCase()} TRACK LOADED
             </p>

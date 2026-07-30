@@ -4,6 +4,7 @@ import { POIS } from "@/data/festival";
 import { SEED_PHOTOS, SNAPPABLE_KINDS } from "@/data/photos";
 import { PhotoCard, type FeedItem } from "@/components/festival/PhotoCard";
 import { useSession } from "@/state/session";
+import { Jorge, JorgeSays } from "@/components/festival/Jorge";
 
 export const Route = createFileRoute("/day-share")({
   head: () => ({
@@ -73,11 +74,14 @@ function DayShare() {
 
   return (
     <section className="px-5 pt-8 pb-8">
-      <h1 className="font-display text-6xl leading-[0.85] mb-4">
-        DAY
-        <br />
-        <span className="text-brand-red">SHARE</span>
-      </h1>
+      <div className="flex items-center gap-3 mb-4">
+        <h1 className="font-display text-6xl leading-[0.85]">
+          DAY
+          <br />
+          <span className="text-brand-red">SHARE</span>
+        </h1>
+        <Jorge variant="full" size="medium" className="ml-auto" />
+      </div>
 
       <div className="border-2 border-brand-ink bg-brand-yellow p-4 mb-4">
         <p className="font-display text-5xl leading-none">{points} POINTS</p>
@@ -107,10 +111,13 @@ function DayShare() {
 
       {feed.length === 0 ? (
         <div className="border-2 border-dashed border-brand-ink/40 p-6 text-center">
-          <p className="font-display text-3xl leading-none">NO PICTURES YET</p>
-          <p className="text-xs opacity-70 mt-2">
-            Tap the camera icon on a stop in My Day to take your first photo.
-          </p>
+          <JorgeSays variant="full" size="medium">
+            <p className="font-display text-2xl leading-none">NO PICTURES YET</p>
+            <p className="text-xs opacity-70 mt-1 text-left">
+              Tap the camera icon on a stop in My Day to take your first photo —
+              Jorge wants to see it.
+            </p>
+          </JorgeSays>
         </div>
       ) : (
         <div className="space-y-4">

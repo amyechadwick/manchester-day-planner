@@ -13,6 +13,7 @@ import {
 import { KIND_META, MCR_CENTER, PARADE_ROUTE, POIS, type POI } from "@/data/festival";
 import { useSession } from "@/state/session";
 import { distanceKm, walkMinutes, formatMinutes } from "@/lib/distance";
+import { JORGE_HEAD_URL } from "./Jorge";
 
 function pinIcon(color: string, label: string, big = false) {
   const size = big ? 34 : 26;
@@ -34,17 +35,18 @@ function pinIcon(color: string, label: string, big = false) {
 function meIcon() {
   const html = `
     <div style="position:relative;">
-      <div style="width:22px;height:22px;border-radius:9999px;background:#FFD21F;
-        border:3px solid #1A1A1A;box-shadow:0 0 0 6px rgba(255,210,31,0.35);"></div>
-      <div style="position:absolute;top:26px;left:50%;transform:translateX(-50%);
+      <img src="${JORGE_HEAD_URL}" alt="" style="width:42px;height:42px;object-fit:contain;
+        border-radius:9999px;background:#FFD21F;border:3px solid #1A1A1A;
+        box-shadow:0 0 0 6px rgba(255,210,31,0.35);" />
+      <div style="position:absolute;top:46px;left:50%;transform:translateX(-50%);
         background:#1A1A1A;color:#FBF3E2;padding:2px 6px;font-family:'Bebas Neue',sans-serif;
-        font-size:11px;white-space:nowrap;">YOU</div>
+        font-size:11px;white-space:nowrap;">YOU &amp; JORGE</div>
     </div>`;
   return L.divIcon({
     className: "md-me",
     html,
-    iconSize: [22, 22],
-    iconAnchor: [11, 11],
+    iconSize: [42, 42],
+    iconAnchor: [21, 21],
   });
 }
 
