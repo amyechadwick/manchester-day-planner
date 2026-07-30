@@ -8,8 +8,11 @@ export function AgendaButton({
   id: string;
   tone?: "light" | "dark";
 }) {
-  const { isInAgenda, toggleAgenda } = useSession();
+  const { isInAgenda, toggleAgenda, trackSelected } = useSession();
   const on = isInAgenda(id);
+
+  // While a track is loaded the agenda is locked — use "Choose my own day" first.
+  if (trackSelected) return null;
 
   return (
     <button
