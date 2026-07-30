@@ -2,6 +2,7 @@ import { EVENT_END, EVENT_START } from "@/data/festival";
 import { formatClock } from "@/lib/distance";
 import { useSession } from "@/state/session";
 import { PointsBadge } from "./PointsBadge";
+import { Jorge } from "./Jorge";
 
 export function SimClockControl() {
   const { simNow, setSimNow } = useSession();
@@ -9,6 +10,7 @@ export function SimClockControl() {
   return (
     <div className="sticky top-0 z-40 bg-brand-ink text-brand-cream px-4 py-2 border-b-4 border-brand-red">
       <div className="flex items-center justify-between gap-3">
+        <Jorge size="badge" priority />
         <div className="min-w-0">
           <p className="text-[9px] uppercase font-bold tracking-widest opacity-70 leading-none">
             Demo clock · scrub the day
