@@ -31,14 +31,9 @@ export function MyDayList() {
           i === 0 ? userLocation : [items[i - 1].lat, items[i - 1].lng];
         const km = distanceKm(from, [p.lat, p.lng]);
         const walk = walkMinutes(km, walkKmh);
-        const prevEnd =
-          i === 0
-            ? simNow
-            : (items[i - 1].endsAt ?? items[i - 1].startsAt ?? simNow);
-        const clash = p.startsAt != null && prevEnd + walk > p.startsAt;
-        return { km, walk, clash };
+        return { km, walk };
       }),
-    [items, userLocation, walkKmh, simNow],
+    [items, userLocation, walkKmh],
   );
 
   if (items.length === 0) {
@@ -77,13 +72,15 @@ export function MyDayList() {
         <p className="text-[10px] uppercase font-bold tracking-widest opacity-60">
           {items.length} saved · walking times at {PERSONAS[persona].label.toLowerCase()} pace
         </p>
-        <button
-          type="button"
-          onClick={clearAgenda}
-          className="font-display text-sm border-2 border-brand-ink px-2 py-1 leading-none hover:bg-brand-red hover:text-brand-cream transition"
-        >
-          CLEAR
-        </button>
+        {!trackSelected && (
+          <button
+            type="button"
+            onClick={clearAgenda}
+            className="font-display text-sm border-2 border-brand-ink px-2 py-1 leading-none hover:bg-brand-red hover:text-brand-cream transition"
+          >
+            CLEAR
+          </button>
+        )}
       </div>
 
       <ol className="space-y-2">
@@ -108,19 +105,16 @@ export function MyDayList() {
                 {i === 0 ? "From your pin" : `From stop ${i}`} ·{" "}
                 {formatMinutes(legs[i].walk)} walk
               </p>
-              {legs[i].clash && (
-                <p className="inline-block mt-1 bg-brand-red text-brand-cream text-[10px] uppercase font-bold tracking-widest px-2 py-0.5">
-                  {PERSONAS[persona].clashPhrase}
-                </p>
-              )}
             </div>
-            <button
-              type="button"
-              onClick={() => toggleAgenda(p.id)}
-              className="shrink-0 font-display text-sm border-2 border-brand-ink px-2 py-1 leading-none hover:bg-brand-red hover:text-brand-cream transition"
-            >
-              REMOVE
-            </button>
+            {!trackSelected && (
+              <button
+                type="button"
+                onClick={() => toggleAgenda(p.id)}
+                className="shrink-0 font-display text-sm border-2 border-brand-ink px-2 py-1 leading-none hover:bg-brand-red hover:text-brand-cream transition"
+              >
+                REMOVE
+              </button>
+            )}
           </li>
         ))}
       </ol>

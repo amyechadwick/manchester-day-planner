@@ -84,7 +84,8 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     (p: Persona) => {
       setPersonaState(p);
       setTrackSelected(true);
-      setAgenda(persist(trackStops(p).map((s) => s.id)));
+      // Prototype cap: at most 10 stops in a track day.
+      setAgenda(persist(trackStops(p).slice(0, 10).map((s) => s.id)));
       try {
         window.localStorage.setItem(PERSONA_KEY, p);
         window.localStorage.setItem(TRACK_KEY, "1");
