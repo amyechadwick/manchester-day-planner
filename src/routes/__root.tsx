@@ -11,6 +11,9 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { SessionProvider } from "@/state/session";
+import { SimClockControl } from "@/components/festival/SimClockControl";
+import { BottomNav } from "@/components/festival/BottomNav";
 
 function NotFoundComponent() {
   return (
