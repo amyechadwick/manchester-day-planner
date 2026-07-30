@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
-import { KIND_META, MCR_CENTER, POIS, type POIKind } from "@/data/festival";
+import { KIND_META, MCR_CENTER, PERSONAS, POIS, type POIKind } from "@/data/festival";
 import { useSession } from "@/state/session";
 
-type FilterId =
+export type FilterId =
   | "my_day"
+  | "track"
   | "events"
   | "food"
   | "first_aid"
@@ -11,8 +12,9 @@ type FilterId =
   | "transport"
   | "parade";
 
-const FILTERS: { id: FilterId; label: string; kinds: POIKind[] }[] = [
+export const MAP_FILTERS: { id: FilterId; label: string; kinds: POIKind[] }[] = [
   { id: "my_day", label: "MY DAY", kinds: [] },
+  { id: "track", label: "TRACK ROUTE", kinds: [] },
   { id: "events", label: "EVENTS", kinds: ["event"] },
   { id: "parade", label: "PARADE", kinds: ["parade_stop"] },
   { id: "food", label: "FOOD", kinds: ["food"] },
@@ -25,15 +27,22 @@ const FILTERS: { id: FilterId; label: string; kinds: POIKind[] }[] = [
   { id: "transport", label: "TRANSPORT", kinds: ["transport"] },
 ];
 
+const FILTERS = MAP_FILTERS;
+
 const ACCESSIBLE_SUBS: { kind: POIKind; label: string; swatch: string }[] = [
   { kind: "step_free", label: "Step-free routes", swatch: "bg-brand-blue" },
   { kind: "toilet_accessible", label: "Accessible toilets", swatch: "bg-brand-red" },
   { kind: "accessible_viewing", label: "Parade viewing", swatch: "bg-brand-ink" },
 ];
 
-export function FestivalMap() {
-  const { agenda } = useSession();
-  const [active, setActive] = useState<FilterId>("events");
+export function FestivalMap({
+  active,
+  onActiveChange,
+}: {
+  active: FilterId;
+  onActiveChange: (f: FilterId) => void;
+}) {
+  const { agenda, persona } = useSession();
   const [showHeatmap, setShowHeatmap] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -43,14 +52,26 @@ export function FestivalMap() {
     () => FILTERS.find((f) => f.id === active)!.kinds,
     [active],
   );
+  const trackPois = useMemo(
+    () =>
+      POIS.filter(
+        (p) =>
+          (p.kind === "event" || p.kind === "parade_stop") &&
+          p.personaBoost?.includes(persona),
+      ).sort((a, b) => (a.startsAt ?? 24 * 60) - (b.startsAt ?? 24 * 60)),
+    [persona],
+  );
+
   const visiblePois = useMemo(
     () =>
-      active === "my_day"
+      active === "track"
+        ? trackPois
+        : active === "my_day"
         ? POIS.filter((p) => agenda.includes(p.id)).sort(
             (a, b) => (a.startsAt ?? 24 * 60) - (b.startsAt ?? 24 * 60),
           )
         : POIS.filter((p) => visibleKinds.includes(p.kind)),
-    [visibleKinds, active, agenda],
+    [visibleKinds, active, agenda, trackPois],
   );
 
   return (
@@ -84,7 +105,7 @@ export function FestivalMap() {
           <button
             key={f.id}
             type="button"
-            onClick={() => setActive(f.id)}
+            onClick={() => onActiveChange(f.id)}
             className={
               "flex-none px-4 py-2 font-display text-lg border-2 border-brand-ink transition " +
               (active === f.id
@@ -92,7 +113,9 @@ export function FestivalMap() {
                 : "bg-brand-cream text-brand-ink")
             }
           >
-            {f.label}
+            {f.id === "track"
+              ? `${PERSONAS[persona].label.toUpperCase()} TRACK`
+              : f.label}
           </button>
         ))}
       </div>
@@ -125,6 +148,19 @@ export function FestivalMap() {
             {visiblePois.length === 0
               ? "Nothing saved yet — add events or parade stops from My Day and they'll appear here, numbered in time order."
               : "Numbered in time order and joined by a dashed line, starting from your pin."}
+          </p>
+        </div>
+      )}
+
+      {active === "track" && (
+        <div className="mt-6 border-2 border-brand-ink bg-brand-yellow p-4">
+          <p className="font-display text-2xl leading-none">
+            {PERSONAS[persona].label.toUpperCase()} TRACK · {visiblePois.length} STOP
+            {visiblePois.length === 1 ? "" : "S"}
+          </p>
+          <p className="text-xs opacity-80 mt-1">
+            {PERSONAS[persona].blurb} Numbered in time order and joined by a
+            solid line — change your track on the home page.
           </p>
         </div>
       )}

@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { FestivalMap } from "@/components/festival/FestivalMap";
+import { FestivalMap, type FilterId } from "@/components/festival/FestivalMap";
 import { AmenityFinder } from "@/components/festival/AmenityFinder";
 
 export const Route = createFileRoute("/map")({
@@ -23,10 +24,11 @@ export const Route = createFileRoute("/map")({
 });
 
 function MapPage() {
+  const [active, setActive] = useState<FilterId>("events");
   return (
     <>
-      <FestivalMap />
-      <AmenityFinder />
+      <FestivalMap active={active} onActiveChange={setActive} />
+      <AmenityFinder activeFilter={active} />
     </>
   );
 }
