@@ -124,6 +124,7 @@ const PARADE_STOPS: POI[] = [
     lng: -2.2436,
     startsAt: t("13:00"),
     paradeStopOrder: 1,
+    personaBoost: ["families", "elderly", "young", "wheelchair", "music", "foodie", "culture"],
     area: "St Peter's Sq",
     description: "Parade start. Opening flourish with the Castellers.",
   },
@@ -135,6 +136,7 @@ const PARADE_STOPS: POI[] = [
     lng: -2.2470,
     startsAt: t("13:15"),
     paradeStopOrder: 2,
+    personaBoost: ["families", "elderly", "young", "wheelchair", "music", "foodie", "culture"],
     area: "Peter St",
   },
   {
@@ -145,6 +147,7 @@ const PARADE_STOPS: POI[] = [
     lng: -2.2487,
     startsAt: t("13:35"),
     paradeStopOrder: 3,
+    personaBoost: ["families", "elderly", "young", "wheelchair", "music", "foodie", "culture"],
     area: "Deansgate",
     description: "Widest viewing. Great for pushchairs and wheelchairs.",
   },
@@ -156,6 +159,7 @@ const PARADE_STOPS: POI[] = [
     lng: -2.2451,
     startsAt: t("13:55"),
     paradeStopOrder: 4,
+    personaBoost: ["families", "elderly", "young", "wheelchair", "music", "foodie", "culture"],
     area: "St Mary's Gate",
   },
   {
@@ -166,6 +170,7 @@ const PARADE_STOPS: POI[] = [
     lng: -2.2432,
     startsAt: t("14:15"),
     paradeStopOrder: 5,
+    personaBoost: ["families", "elderly", "young", "wheelchair", "music", "foodie", "culture"],
     area: "Cross St",
   },
   {
@@ -176,6 +181,7 @@ const PARADE_STOPS: POI[] = [
     lng: -2.2410,
     startsAt: t("14:35"),
     paradeStopOrder: 6,
+    personaBoost: ["families", "elderly", "young", "wheelchair", "music", "foodie", "culture"],
     area: "Princess St",
   },
   {
@@ -186,6 +192,7 @@ const PARADE_STOPS: POI[] = [
     lng: -2.2452,
     startsAt: t("14:55"),
     paradeStopOrder: 7,
+    personaBoost: ["families", "elderly", "young", "wheelchair", "music", "foodie", "culture"],
     area: "Albert Sq",
     description: "Big finale. Expect it to be packed — plan around it.",
   },
@@ -201,7 +208,7 @@ const EVENTS: POI[] = [
     startsAt: t("12:15"),
     endsAt: t("13:00"),
     area: "Albert Sq",
-    personaBoost: ["families", "young", "wheelchair", "culture"],
+    personaBoost: ["families", "young", "wheelchair", "culture", "music"],
     description: "Signature Catalan acrobatic act. Big crowd pull.",
   },
   {
@@ -213,7 +220,7 @@ const EVENTS: POI[] = [
     startsAt: t("12:30"),
     endsAt: t("13:00"),
     area: "St Peter's Sq",
-    personaBoost: ["families", "elderly", "music", "culture"],
+    personaBoost: ["families", "elderly", "music", "culture", "young"],
     description: "Learn the traditional Catalan circle dance. All ages.",
   },
   {
@@ -225,7 +232,7 @@ const EVENTS: POI[] = [
     startsAt: t("13:00"),
     endsAt: t("15:15"),
     area: "Full route",
-    personaBoost: ["families", "young", "wheelchair", "elderly", "culture"],
+    personaBoost: ["families", "young", "wheelchair", "elderly", "culture", "music", "foodie"],
     description: "Walk the Plank's book-themed procession. New route.",
   },
   {
@@ -237,7 +244,7 @@ const EVENTS: POI[] = [
     startsAt: t("13:35"),
     endsAt: t("14:00"),
     area: "Deansgate",
-    personaBoost: ["families", "culture"],
+    personaBoost: ["families", "culture", "young", "wheelchair"],
     description: "Huge illustrated sardines. Photo goldmine.",
   },
   {
@@ -249,7 +256,7 @@ const EVENTS: POI[] = [
     startsAt: t("12:00"),
     endsAt: t("12:45"),
     area: "Cross St",
-    personaBoost: ["elderly", "music", "culture"],
+    personaBoost: ["elderly", "music", "culture", "families", "wheelchair"],
     description: "Local brass, seated area available.",
   },
   {
@@ -261,7 +268,7 @@ const EVENTS: POI[] = [
     startsAt: t("12:30"),
     endsAt: t("16:30"),
     area: "Princess St",
-    personaBoost: ["families", "culture"],
+    personaBoost: ["families", "culture", "elderly"],
     description: "Drop-in readings for kids all afternoon.",
   },
   {
@@ -273,7 +280,7 @@ const EVENTS: POI[] = [
     startsAt: t("15:30"),
     endsAt: t("16:15"),
     area: "Cross St stage",
-    personaBoost: ["young", "music", "culture"],
+    personaBoost: ["young", "music", "culture", "foodie"],
   },
   {
     id: "ev-dj",
@@ -284,7 +291,7 @@ const EVENTS: POI[] = [
     startsAt: t("15:30"),
     endsAt: t("17:00"),
     area: "Albert Sq",
-    personaBoost: ["young", "music"],
+    personaBoost: ["young", "music", "foodie"],
     description: "Barcelona meets Manchester on the decks.",
   },
   {
@@ -307,7 +314,7 @@ const EVENTS: POI[] = [
     startsAt: t("15:00"),
     endsAt: t("15:30"),
     area: "Albert Sq",
-    personaBoost: ["elderly", "families", "music", "culture"],
+    personaBoost: ["elderly", "families", "music", "culture", "wheelchair"],
   },
   {
     id: "ev-poetry",
@@ -318,7 +325,7 @@ const EVENTS: POI[] = [
     startsAt: t("14:00"),
     endsAt: t("14:45"),
     area: "Princess St",
-    personaBoost: ["young", "elderly", "culture"],
+    personaBoost: ["young", "elderly", "culture", "wheelchair"],
   },
   {
     id: "ev-catalan-cinema",
@@ -329,7 +336,7 @@ const EVENTS: POI[] = [
     startsAt: t("15:00"),
     endsAt: t("16:30"),
     area: "Peter St",
-    personaBoost: ["elderly", "young", "culture"],
+    personaBoost: ["elderly", "young", "culture", "wheelchair", "music"],
   },
   {
     id: "ev-face-paint",
@@ -351,7 +358,7 @@ const EVENTS: POI[] = [
     startsAt: t("12:00"),
     endsAt: t("17:00"),
     area: "Deansgate",
-    personaBoost: ["elderly", "young", "wheelchair", "culture", "foodie", "families", "music"],
+    personaBoost: ["families", "elderly", "young", "wheelchair", "music", "foodie", "culture"],
   },
 ];
 
