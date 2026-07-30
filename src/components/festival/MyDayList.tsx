@@ -31,14 +31,9 @@ export function MyDayList() {
           i === 0 ? userLocation : [items[i - 1].lat, items[i - 1].lng];
         const km = distanceKm(from, [p.lat, p.lng]);
         const walk = walkMinutes(km, walkKmh);
-        const prevEnd =
-          i === 0
-            ? simNow
-            : (items[i - 1].endsAt ?? items[i - 1].startsAt ?? simNow);
-        const clash = p.startsAt != null && prevEnd + walk > p.startsAt;
-        return { km, walk, clash };
+        return { km, walk };
       }),
-    [items, userLocation, walkKmh, simNow],
+    [items, userLocation, walkKmh],
   );
 
   if (items.length === 0) {
@@ -84,6 +79,7 @@ export function MyDayList() {
         >
           CLEAR
         </button>
+      </div>
       </div>
 
       <ol className="space-y-2">
