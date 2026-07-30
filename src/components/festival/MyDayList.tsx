@@ -5,6 +5,7 @@ import { distanceKm, walkMinutes, formatMinutes, formatClock } from "@/lib/dista
 import { useSession } from "@/state/session";
 import { SnapButton } from "./SnapButton";
 import { SpotPhotosSheet } from "./SpotPhotosSheet";
+import { JorgeSays } from "./Jorge";
 
 export function MyDayList() {
   const {
@@ -41,11 +42,14 @@ export function MyDayList() {
   if (items.length === 0) {
     return (
       <div className="border-2 border-dashed border-brand-ink/40 p-6 text-center bg-brand-cream">
-        <p className="font-display text-3xl leading-none">MY DAY IS EMPTY</p>
-        <p className="text-xs opacity-70 mt-2">
-          Hit ADD on anything in the programme or parade below to build your own
-          agenda. Your picks show up here and as a route on the map.
-        </p>
+        <JorgeSays variant="full" size="medium">
+          <p className="font-display text-2xl leading-none">MY DAY IS EMPTY</p>
+          <p className="text-xs opacity-70 mt-1 text-left">
+            Jorge is waiting. Hit ADD on anything in the programme or parade
+            below to build your own agenda — your picks show up here and as a
+            route on the map.
+          </p>
+        </JorgeSays>
       </div>
     );
   }
