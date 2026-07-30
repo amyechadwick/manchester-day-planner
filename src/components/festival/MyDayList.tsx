@@ -105,19 +105,16 @@ export function MyDayList() {
                 {i === 0 ? "From your pin" : `From stop ${i}`} ·{" "}
                 {formatMinutes(legs[i].walk)} walk
               </p>
-              {legs[i].clash && (
-                <p className="inline-block mt-1 bg-brand-red text-brand-cream text-[10px] uppercase font-bold tracking-widest px-2 py-0.5">
-                  {PERSONAS[persona].clashPhrase}
-                </p>
-              )}
             </div>
-            <button
-              type="button"
-              onClick={() => toggleAgenda(p.id)}
-              className="shrink-0 font-display text-sm border-2 border-brand-ink px-2 py-1 leading-none hover:bg-brand-red hover:text-brand-cream transition"
-            >
-              REMOVE
-            </button>
+            {!trackSelected && (
+              <button
+                type="button"
+                onClick={() => toggleAgenda(p.id)}
+                className="shrink-0 font-display text-sm border-2 border-brand-ink px-2 py-1 leading-none hover:bg-brand-red hover:text-brand-cream transition"
+              >
+                REMOVE
+              </button>
+            )}
           </li>
         ))}
       </ol>
