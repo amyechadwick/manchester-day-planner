@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { KIND_META, POIS, type POIKind } from "@/data/festival";
 import { useSession } from "@/state/session";
+import { MAP_FILTERS, type FilterId } from "./FestivalMap";
 import { distanceKm, walkMinutes, formatMinutes } from "@/lib/distance";
 
 const CATEGORIES: { title: string; kinds: POIKind[]; blurb: string }[] = [
@@ -24,7 +25,7 @@ const CATEGORIES: { title: string; kinds: POIKind[]; blurb: string }[] = [
   { title: "TRANSPORT", kinds: ["transport"], blurb: "Trams, trains, buses" },
 ];
 
-export function AmenityFinder() {
+export function AmenityFinder({ activeFilter }: { activeFilter?: FilterId }) {
   const { userLocation, walkKmh, persona } = useSession();
 
   const rows = useMemo(() => {
@@ -40,7 +41,14 @@ export function AmenityFinder() {
     });
   }, [userLocation]);
 
+  const filterKinds =
+    MAP_FILTERS.find((f) => f.id === activeFilter)?.kinds ?? [];
+
   const emphasise = (title: string) => {
+    if (filterKinds.length > 0) {
+      const cat = CATEGORIES.find((c) => c.title === title)!;
+      return cat.kinds.some((k) => filterKinds.includes(k));
+    }
     if (persona === "wheelchair")
       return ["ACCESSIBLE TOILETS", "STEP-FREE ROUTES", "ACCESSIBLE VIEWING"].includes(title);
     if (persona === "elderly")
@@ -56,7 +64,8 @@ export function AmenityFinder() {
     <section className="px-5 py-12 bg-brand-cream border-t-4 border-brand-ink">
       <h3 className="font-display text-5xl leading-none mb-2">NEAREST TO YOU</h3>
       <p className="text-xs opacity-70 mb-6">
-        Distances from your "I am here" pin at {walkKmh} km/h.
+        Distances from your "I am here" pin at {walkKmh} km/h. Highlighted rows
+        match what you've selected on the map above.
       </p>
 
       <div className="space-y-4">
@@ -74,7 +83,7 @@ export function AmenityFinder() {
                 <p className="font-display text-2xl leading-none">{cat.title}</p>
                 {hot && (
                   <span className="text-[10px] uppercase font-bold tracking-widest bg-brand-ink text-brand-cream px-2 py-1">
-                    For {persona}
+                    {filterKinds.length > 0 ? "On map now" : `For ${persona}`}
                   </span>
                 )}
               </div>

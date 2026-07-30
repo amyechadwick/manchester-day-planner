@@ -141,6 +141,8 @@ export function MapCanvasClient({
 }) {
   const { userLocation, walkKmh } = useSession();
   const isMyDay = activeFilter === "my_day";
+  const isTrack = activeFilter === "track";
+  const numbered = isMyDay || isTrack;
 
   const paradeLine = useMemo<[number, number][]>(
     () => PARADE_ROUTE.map((p) => [p.lat, p.lng]),
@@ -155,7 +157,16 @@ export function MapCanvasClient({
     [isMyDay, pois, userLocation],
   );
 
-  const showParadeLine = pois.some((p) => p.kind === "parade_stop");
+  const trackLine = useMemo<[number, number][]>(
+    () =>
+      isTrack && pois.length > 0
+        ? [userLocation, ...pois.map((p) => [p.lat, p.lng] as [number, number])]
+        : [],
+    [isTrack, pois, userLocation],
+  );
+
+  const showParadeLine =
+    !isTrack && pois.some((p) => p.kind === "parade_stop");
 
   return (
     <MapContainer
@@ -174,6 +185,13 @@ export function MapCanvasClient({
         <Polyline
           positions={paradeLine}
           pathOptions={{ color: "#E63329", weight: 5, opacity: 0.85 }}
+        />
+      )}
+
+      {trackLine.length > 1 && (
+        <Polyline
+          positions={trackLine}
+          pathOptions={{ color: "#1E4FB8", weight: 5, opacity: 0.9 }}
         />
       )}
 
@@ -196,14 +214,14 @@ export function MapCanvasClient({
             key={p.id}
             position={[p.lat, p.lng]}
             icon={
-              isMyDay
+              numbered
                 ? numberIcon(i + 1, meta.color)
                 : pinIcon(meta.color, meta.short, p.kind === "parade_stop")
             }
           >
             <Popup>
               <div style={{ fontFamily: "Barlow, sans-serif" }}>
-                {isMyDay && <span style={{ opacity: 0.7 }}>Stop {i + 1} · </span>}
+                {numbered && <span style={{ opacity: 0.7 }}>Stop {i + 1} · </span>}
                 <strong>{p.name}</strong>
                 <br />
                 <span style={{ opacity: 0.7 }}>{meta.label}</span>
