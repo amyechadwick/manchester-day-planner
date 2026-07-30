@@ -48,6 +48,22 @@ function meIcon() {
   });
 }
 
+function numberIcon(n: number, color: string) {
+  const html = `
+    <div style="
+      width:30px;height:30px;border-radius:9999px;
+      background:${color};border:3px solid #1A1A1A;color:#FBF3E2;
+      display:flex;align-items:center;justify-content:center;
+      font-family:'Bebas Neue',sans-serif;font-size:14px;
+      box-shadow:2px 2px 0 #FFD21F;line-height:1;">${n}</div>`;
+  return L.divIcon({
+    className: "md-num",
+    html,
+    iconSize: [30, 30],
+    iconAnchor: [15, 15],
+  });
+}
+
 function ClickToMoveMe() {
   const { setUserLocation } = useSession();
   useMapEvents({
@@ -117,16 +133,26 @@ function HeatLayer({ active }: { active: boolean }) {
 export function MapCanvasClient({
   pois,
   heatmap,
+  activeFilter,
 }: {
   pois: POI[];
   heatmap: boolean;
   activeFilter: string;
 }) {
   const { userLocation, walkKmh } = useSession();
+  const isMyDay = activeFilter === "my_day";
 
   const paradeLine = useMemo<[number, number][]>(
     () => PARADE_ROUTE.map((p) => [p.lat, p.lng]),
     [],
+  );
+
+  const myDayLine = useMemo<[number, number][]>(
+    () =>
+      isMyDay && pois.length > 0
+        ? [userLocation, ...pois.map((p) => [p.lat, p.lng] as [number, number])]
+        : [],
+    [isMyDay, pois, userLocation],
   );
 
   const showParadeLine = pois.some((p) => p.kind === "parade_stop");
@@ -144,23 +170,40 @@ export function MapCanvasClient({
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       />
 
-      {showParadeLine && (
+      {showParadeLine && !isMyDay && (
         <Polyline
           positions={paradeLine}
           pathOptions={{ color: "#E63329", weight: 5, opacity: 0.85 }}
         />
       )}
 
-      {pois.map((p) => {
+      {myDayLine.length > 1 && (
+        <Polyline
+          positions={myDayLine}
+          pathOptions={{
+            color: "#1E4FB8",
+            weight: 5,
+            opacity: 0.9,
+            dashArray: "10 8",
+          }}
+        />
+      )}
+
+      {pois.map((p, i) => {
         const meta = KIND_META[p.kind];
         return (
           <Marker
             key={p.id}
             position={[p.lat, p.lng]}
-            icon={pinIcon(meta.color, meta.short, p.kind === "parade_stop")}
+            icon={
+              isMyDay
+                ? numberIcon(i + 1, meta.color)
+                : pinIcon(meta.color, meta.short, p.kind === "parade_stop")
+            }
           >
             <Popup>
               <div style={{ fontFamily: "Barlow, sans-serif" }}>
+                {isMyDay && <span style={{ opacity: 0.7 }}>Stop {i + 1} · </span>}
                 <strong>{p.name}</strong>
                 <br />
                 <span style={{ opacity: 0.7 }}>{meta.label}</span>
