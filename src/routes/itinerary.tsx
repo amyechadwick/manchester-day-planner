@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { PERSONAS } from "@/data/festival";
 import { MyDayList } from "@/components/festival/MyDayList";
 import { TrackList } from "@/components/festival/TrackList";
 import { ProgrammeList } from "@/components/festival/ProgrammeList";
