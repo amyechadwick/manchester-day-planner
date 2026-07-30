@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { KIND_META, MCR_CENTER, PERSONAS, POIS, type POIKind } from "@/data/festival";
 import { useSession } from "@/state/session";
+import { trackStops } from "@/lib/track";
+import { TrackList } from "./TrackList";
 
 export type FilterId =
   | "my_day"
@@ -52,15 +54,7 @@ export function FestivalMap({
     () => FILTERS.find((f) => f.id === active)!.kinds,
     [active],
   );
-  const trackPois = useMemo(
-    () =>
-      POIS.filter(
-        (p) =>
-          (p.kind === "event" || p.kind === "parade_stop") &&
-          p.personaBoost?.includes(persona),
-      ).sort((a, b) => (a.startsAt ?? 24 * 60) - (b.startsAt ?? 24 * 60)),
-    [persona],
-  );
+  const trackPois = useMemo(() => trackStops(persona), [persona]);
 
   const visiblePois = useMemo(
     () =>
@@ -153,15 +147,19 @@ export function FestivalMap({
       )}
 
       {active === "track" && (
-        <div className="mt-6 border-2 border-brand-ink bg-brand-yellow p-4">
+        <div className="mt-6 border-2 border-brand-ink bg-brand-yellow p-4 space-y-4">
+          <div>
           <p className="font-display text-2xl leading-none">
             {PERSONAS[persona].label.toUpperCase()} TRACK · {visiblePois.length} STOP
             {visiblePois.length === 1 ? "" : "S"}
           </p>
           <p className="text-xs opacity-80 mt-1">
-            {PERSONAS[persona].blurb} Numbered in time order and joined by a
-            solid line — change your track on the home page.
+            {PERSONAS[persona].blurb} Every stop on this track is on the map,
+            numbered 1–{visiblePois.length} in time order and joined by a solid
+            line — change your track on the home page.
           </p>
+          </div>
+          <TrackList />
         </div>
       )}
 
