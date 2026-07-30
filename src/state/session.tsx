@@ -8,10 +8,15 @@ import {
   type ReactNode,
 } from "react";
 import { MCR_CENTER, PERSONAS, type Persona } from "@/data/festival";
+import { trackStops } from "@/lib/track";
 
 interface SessionState {
   persona: Persona;
   setPersona: (p: Persona) => void;
+  /** Whether the user has actively picked a track (home page selection). */
+  trackSelected: boolean;
+  /** Clears My Day, deselects the track and hands control back to the user. */
+  chooseMyOwnDay: () => void;
   /** Simulated user location (draggable "I am here" pin). */
   userLocation: [number, number];
   setUserLocation: (loc: [number, number]) => void;
@@ -30,6 +35,7 @@ const SessionContext = createContext<SessionState | null>(null);
 
 const AGENDA_KEY = "md26-agenda";
 const PERSONA_KEY = "md26-persona";
+const TRACK_KEY = "md26-track-selected";
 
 export function SessionProvider({ children }: { children: ReactNode }) {
   const [persona, setPersonaState] = useState<Persona>("families");
@@ -40,6 +46,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   // Default sim time: 13:20 — lively part of the day, parade just starting.
   const [simNow, setSimNowState] = useState<number>(13 * 60 + 20);
   const [agenda, setAgenda] = useState<string[]>([]);
+  const [trackSelected, setTrackSelected] = useState(false);
 
   // Hydrate from localStorage after mount so SSR markup matches.
   useEffect(() => {
@@ -51,19 +58,12 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       }
       const p = window.localStorage.getItem(PERSONA_KEY);
       if (p && p in PERSONAS) setPersonaState(p as Persona);
+      setTrackSelected(window.localStorage.getItem(TRACK_KEY) === "1");
     } catch {
       /* ignore */
     }
   }, []);
 
-  const setPersona = useCallback((p: Persona) => {
-    setPersonaState(p);
-    try {
-      window.localStorage.setItem(PERSONA_KEY, p);
-    } catch {
-      /* ignore */
-    }
-  }, []);
   const setUserLocation = useCallback(
     (loc: [number, number]) => setUserLocationState(loc),
     [],
@@ -79,6 +79,32 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     return next;
   }, []);
 
+  // Picking a track pre-fills My Day with that track's stops.
+  const setPersona = useCallback(
+    (p: Persona) => {
+      setPersonaState(p);
+      setTrackSelected(true);
+      setAgenda(persist(trackStops(p).map((s) => s.id)));
+      try {
+        window.localStorage.setItem(PERSONA_KEY, p);
+        window.localStorage.setItem(TRACK_KEY, "1");
+      } catch {
+        /* ignore */
+      }
+    },
+    [persist],
+  );
+
+  const chooseMyOwnDay = useCallback(() => {
+    setTrackSelected(false);
+    setAgenda(persist([]));
+    try {
+      window.localStorage.setItem(TRACK_KEY, "0");
+    } catch {
+      /* ignore */
+    }
+  }, [persist]);
+
   const toggleAgenda = useCallback(
     (id: string) =>
       setAgenda((prev) =>
@@ -93,6 +119,8 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     () => ({
       persona,
       setPersona,
+      trackSelected,
+      chooseMyOwnDay,
       userLocation,
       setUserLocation,
       simNow,
@@ -106,6 +134,8 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     [
       persona,
       setPersona,
+      trackSelected,
+      chooseMyOwnDay,
       userLocation,
       setUserLocation,
       simNow,
