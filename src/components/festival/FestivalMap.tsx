@@ -2,9 +2,17 @@ import { useEffect, useMemo, useState } from "react";
 import { KIND_META, MCR_CENTER, POIS, type POIKind } from "@/data/festival";
 import { useSession } from "@/state/session";
 
-type FilterId = "events" | "food" | "first_aid" | "accessible" | "transport" | "parade";
+type FilterId =
+  | "my_day"
+  | "events"
+  | "food"
+  | "first_aid"
+  | "accessible"
+  | "transport"
+  | "parade";
 
 const FILTERS: { id: FilterId; label: string; kinds: POIKind[] }[] = [
+  { id: "my_day", label: "MY DAY", kinds: [] },
   { id: "events", label: "EVENTS", kinds: ["event"] },
   { id: "parade", label: "PARADE", kinds: ["parade_stop"] },
   { id: "food", label: "FOOD", kinds: ["food"] },
@@ -24,6 +32,7 @@ const ACCESSIBLE_SUBS: { kind: POIKind; label: string; swatch: string }[] = [
 ];
 
 export function FestivalMap() {
+  const { agenda } = useSession();
   const [active, setActive] = useState<FilterId>("events");
   const [showHeatmap, setShowHeatmap] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -35,8 +44,13 @@ export function FestivalMap() {
     [active],
   );
   const visiblePois = useMemo(
-    () => POIS.filter((p) => visibleKinds.includes(p.kind)),
-    [visibleKinds],
+    () =>
+      active === "my_day"
+        ? POIS.filter((p) => agenda.includes(p.id)).sort(
+            (a, b) => (a.startsAt ?? 24 * 60) - (b.startsAt ?? 24 * 60),
+          )
+        : POIS.filter((p) => visibleKinds.includes(p.kind)),
+    [visibleKinds, active, agenda],
   );
 
   return (
@@ -101,6 +115,19 @@ export function FestivalMap() {
         Tap the map to move your "I am here" pin. Distances and walking times
         update from wherever it is.
       </p>
+
+      {active === "my_day" && (
+        <div className="mt-6 border-2 border-brand-ink bg-white p-4">
+          <p className="font-display text-2xl leading-none">
+            YOUR ROUTE · {visiblePois.length} STOP{visiblePois.length === 1 ? "" : "S"}
+          </p>
+          <p className="text-xs opacity-70 mt-1">
+            {visiblePois.length === 0
+              ? "Nothing saved yet — add events or parade stops from My Day and they'll appear here, numbered in time order."
+              : "Numbered in time order and joined by a dashed line, starting from your pin."}
+          </p>
+        </div>
+      )}
 
       {active === "accessible" && (
         <div className="mt-6 space-y-3">
