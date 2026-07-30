@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { MyDayList } from "@/components/festival/MyDayList";
 import { TrackList } from "@/components/festival/TrackList";
 import { ProgrammeList } from "@/components/festival/ProgrammeList";
+import { useSession } from "@/state/session";
 
 export const Route = createFileRoute("/itinerary")({
   head: () => ({
@@ -24,6 +25,7 @@ export const Route = createFileRoute("/itinerary")({
 });
 
 function Itinerary() {
+  const { trackSelected } = useSession();
   return (
     <>
       <section className="px-5 pt-8 pb-4">
@@ -34,10 +36,12 @@ function Itinerary() {
         </h1>
         <MyDayList />
       </section>
-      <section className="px-5 pb-8">
-        <h2 className="font-display text-4xl leading-none mb-3">YOUR TRACK</h2>
-        <TrackList />
-      </section>
+      {trackSelected && (
+        <section className="px-5 pb-8">
+          <h2 className="font-display text-4xl leading-none mb-3">YOUR TRACK</h2>
+          <TrackList />
+        </section>
+      )}
       <ProgrammeList />
     </>
   );
