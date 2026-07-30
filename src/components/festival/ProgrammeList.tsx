@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { POIS } from "@/data/festival";
 import { formatClock } from "@/lib/distance";
 import { useSession } from "@/state/session";
+import { AgendaButton } from "./AgendaButton";
 
 export function ProgrammeList() {
   const { simNow, persona } = useSession();
@@ -71,6 +72,9 @@ export function ProgrammeList() {
                             – {formatClock(e.endsAt)}
                           </p>
                         )}
+                        <div className="mt-2 flex justify-end">
+                          <AgendaButton id={e.id} />
+                        </div>
                       </div>
                     </li>
                   );

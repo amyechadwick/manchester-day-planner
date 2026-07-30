@@ -1,6 +1,7 @@
 import { PARADE_ROUTE } from "@/data/festival";
 import { formatClock } from "@/lib/distance";
 import { useSession } from "@/state/session";
+import { AgendaButton } from "./AgendaButton";
 
 export function ParadeTracker() {
   const { simNow, setUserLocation } = useSession();
@@ -21,10 +22,11 @@ export function ParadeTracker() {
           const active = simNow >= eta - 5 && simNow < eta + 10;
           return (
             <li key={stop.id} className={passed ? "opacity-50" : ""}>
+              <div className="flex items-start gap-3">
               <button
                 type="button"
                 onClick={() => setUserLocation([stop.lat, stop.lng])}
-                className="relative text-left w-full"
+                className="relative text-left flex-1 min-w-0"
               >
                 <span
                   className={
@@ -53,6 +55,8 @@ export function ParadeTracker() {
                   <p className="text-xs opacity-70 mt-1">{stop.description}</p>
                 )}
               </button>
+                <AgendaButton id={stop.id} tone="dark" />
+              </div>
             </li>
           );
         })}

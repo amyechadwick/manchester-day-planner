@@ -11,6 +11,9 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { SessionProvider } from "@/state/session";
+import { SimClockControl } from "@/components/festival/SimClockControl";
+import { BottomNav } from "@/components/festival/BottomNav";
 
 function NotFoundComponent() {
   return (
@@ -149,8 +152,14 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <SessionProvider>
+        <main className="min-h-screen bg-brand-cream text-brand-ink font-body selection:bg-brand-yellow pb-28 overflow-x-hidden">
+          <SimClockControl />
+          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+          <Outlet />
+          <BottomNav />
+        </main>
+      </SessionProvider>
     </QueryClientProvider>
   );
 }
