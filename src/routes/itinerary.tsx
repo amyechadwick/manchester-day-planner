@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { MyDayList } from "@/components/festival/MyDayList";
+import { TrackList } from "@/components/festival/TrackList";
 import { ProgrammeList } from "@/components/festival/ProgrammeList";
 
 export const Route = createFileRoute("/itinerary")({
@@ -32,6 +33,10 @@ function Itinerary() {
           <span className="text-brand-red">DAY</span>
         </h1>
         <MyDayList />
+      </section>
+      <section className="px-5 pb-8">
+        <h2 className="font-display text-4xl leading-none mb-3">YOUR TRACK</h2>
+        <TrackList />
       </section>
       <ProgrammeList />
     </>
