@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import posterImg from "@/assets/manchester-day-poster.jpg";
 import { NowNextHero } from "@/components/festival/NowNextHero";
+import { PersonaBar } from "@/components/festival/PersonaBar";
 
 export const Route = createFileRoute("/")({
   head: () => ({
