@@ -50,13 +50,17 @@ export function FestivalMap({
 
   useEffect(() => setMounted(true), []);
 
-  // The track layer only exists while a track is selected.
+  // Track selected -> show the track layer instead of MY DAY, and vice versa.
   useEffect(() => {
     if (!trackSelected && active === "track") onActiveChange("my_day");
+    if (trackSelected && active === "my_day") onActiveChange("track");
   }, [trackSelected, active, onActiveChange]);
 
   const filters = useMemo(
-    () => (trackSelected ? FILTERS : FILTERS.filter((f) => f.id !== "track")),
+    () =>
+      trackSelected
+        ? FILTERS.filter((f) => f.id !== "my_day")
+        : FILTERS.filter((f) => f.id !== "track"),
     [trackSelected],
   );
 
@@ -143,7 +147,7 @@ export function FestivalMap({
         update from wherever it is.
       </p>
 
-      {active === "my_day" && (
+      {active === "my_day" && !trackSelected && (
         <div className="mt-6 border-2 border-brand-ink bg-white p-4">
           <p className="font-display text-2xl leading-none">
             YOUR ROUTE · {visiblePois.length} STOP{visiblePois.length === 1 ? "" : "S"}
