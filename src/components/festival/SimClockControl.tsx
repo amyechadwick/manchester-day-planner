@@ -1,6 +1,7 @@
 import { EVENT_END, EVENT_START } from "@/data/festival";
 import { formatClock } from "@/lib/distance";
 import { useSession } from "@/state/session";
+import { PointsBadge } from "./PointsBadge";
 
 export function SimClockControl() {
   const { simNow, setSimNow } = useSession();
@@ -26,6 +27,7 @@ export function SimClockControl() {
           className="flex-1 accent-brand-yellow"
           aria-label="Simulated time of day"
         />
+        <PointsBadge />
       </div>
     </div>
   );

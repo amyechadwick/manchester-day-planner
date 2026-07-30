@@ -4,6 +4,8 @@ import { formatClock } from "@/lib/distance";
 import { useSession } from "@/state/session";
 import { trackStops } from "@/lib/track";
 import { AgendaButton } from "./AgendaButton";
+import { SnapButton } from "./SnapButton";
+import { SpotPhotosSheet } from "./SpotPhotosSheet";
 
 export function TrackList() {
   const { persona } = useSession();
@@ -38,6 +40,8 @@ export function TrackList() {
                 {KIND_META[p.kind].label}
               </p>
             </div>
+            <SnapButton id={p.id} name={p.name} />
+            <SpotPhotosSheet id={p.id} name={p.name} />
             <AgendaButton id={p.id} />
           </li>
         ))}

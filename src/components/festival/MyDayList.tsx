@@ -3,6 +3,8 @@ import { Link } from "@tanstack/react-router";
 import { POIS, KIND_META, PERSONAS } from "@/data/festival";
 import { distanceKm, walkMinutes, formatMinutes, formatClock } from "@/lib/distance";
 import { useSession } from "@/state/session";
+import { SnapButton } from "./SnapButton";
+import { SpotPhotosSheet } from "./SpotPhotosSheet";
 
 export function MyDayList() {
   const {
@@ -106,6 +108,8 @@ export function MyDayList() {
                 {formatMinutes(legs[i].walk)} walk
               </p>
             </div>
+            <SnapButton id={p.id} name={p.name} />
+            <SpotPhotosSheet id={p.id} name={p.name} />
             {!trackSelected && (
               <button
                 type="button"

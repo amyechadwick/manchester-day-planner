@@ -9,6 +9,14 @@ import {
 } from "react";
 import { MCR_CENTER, PERSONAS, type Persona } from "@/data/festival";
 import { trackStops } from "@/lib/track";
+import { ownImageKeyFor } from "@/data/photos";
+
+export interface Snap {
+  poiId: string;
+  imageKey: string;
+  /** Minutes since midnight when the snap was taken. */
+  takenAt: number;
+}
 
 interface SessionState {
   persona: Persona;
@@ -29,6 +37,12 @@ interface SessionState {
   toggleAgenda: (id: string) => void;
   isInAgenda: (id: string) => boolean;
   clearAgenda: () => void;
+  /** Photos the user has "taken", keyed by POI id. */
+  snaps: Record<string, Snap>;
+  takeSnap: (id: string) => boolean;
+  hasSnap: (id: string) => boolean;
+  /** 10 points per photo taken. */
+  points: number;
 }
 
 const SessionContext = createContext<SessionState | null>(null);
@@ -36,6 +50,7 @@ const SessionContext = createContext<SessionState | null>(null);
 const AGENDA_KEY = "md26-agenda";
 const PERSONA_KEY = "md26-persona";
 const TRACK_KEY = "md26-track-selected";
+const SNAPS_KEY = "md26-snaps";
 
 export function SessionProvider({ children }: { children: ReactNode }) {
   const [persona, setPersonaState] = useState<Persona>("families");
@@ -47,6 +62,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const [simNow, setSimNowState] = useState<number>(13 * 60 + 20);
   const [agenda, setAgenda] = useState<string[]>([]);
   const [trackSelected, setTrackSelected] = useState(false);
+  const [snaps, setSnaps] = useState<Record<string, Snap>>({});
 
   // Hydrate from localStorage after mount so SSR markup matches.
   useEffect(() => {
@@ -59,6 +75,11 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       const p = window.localStorage.getItem(PERSONA_KEY);
       if (p && p in PERSONAS) setPersonaState(p as Persona);
       setTrackSelected(window.localStorage.getItem(TRACK_KEY) === "1");
+      const s = window.localStorage.getItem(SNAPS_KEY);
+      if (s) {
+        const parsed = JSON.parse(s);
+        if (parsed && typeof parsed === "object") setSnaps(parsed);
+      }
     } catch {
       /* ignore */
     }
@@ -116,6 +137,30 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const clearAgenda = useCallback(() => setAgenda(persist([])), [persist]);
   const isInAgenda = useCallback((id: string) => agenda.includes(id), [agenda]);
 
+  const takeSnap = useCallback(
+    (id: string) => {
+      let added = false;
+      setSnaps((prev) => {
+        if (prev[id]) return prev;
+        added = true;
+        const next = {
+          ...prev,
+          [id]: { poiId: id, imageKey: ownImageKeyFor(id), takenAt: simNow },
+        };
+        try {
+          window.localStorage.setItem(SNAPS_KEY, JSON.stringify(next));
+        } catch {
+          /* ignore */
+        }
+        return next;
+      });
+      return added;
+    },
+    [simNow],
+  );
+  const hasSnap = useCallback((id: string) => Boolean(snaps[id]), [snaps]);
+  const points = Object.keys(snaps).length * 10;
+
   const value = useMemo<SessionState>(
     () => ({
       persona,
@@ -131,6 +176,10 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       toggleAgenda,
       isInAgenda,
       clearAgenda,
+      snaps,
+      takeSnap,
+      hasSnap,
+      points,
     }),
     [
       persona,
@@ -145,6 +194,10 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       toggleAgenda,
       isInAgenda,
       clearAgenda,
+      snaps,
+      takeSnap,
+      hasSnap,
+      points,
     ],
   );
 
