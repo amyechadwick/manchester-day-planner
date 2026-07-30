@@ -3,15 +3,8 @@
 ## What changes for the user
 
 1. **The bottom nav becomes real navigation.** Parade, Map, Itinerary and Settings become four separate pages with their own URLs, titles and share metadata, instead of scroll jumps on one long page. The active tab is highlighted, and your persona, demo clock, "you are here" pin and saved agenda carry across every page.
-
-2. **Persona-specific parade routes on the map.** As well as the single red parade line, the map shows the recommended way to follow the parade for who you're with:
-   - Families: shortest hops between wide-pavement viewing spots, near toilets/baby change
-   - Elderly: fewest stops, seated/rest points, shortest total walk
-   - Young: full route end to end, including the busiest sections
-   - Wheelchair: step-free only, routed via accessible viewing points
-   Each route is drawn in its own colour/dash style with total distance and walking time at your persona's pace. Switching persona instantly redraws it.
-
-3. **Build your own agenda.** Every programme item and parade stop gets an add/remove control. Saved items appear in a "My Day" list on the Itinerary page, ordered by time, with walking time between consecutive items and a warning sticker when two picks can't be reached in time at your pace. The map gains a "MY DAY" filter that shows only your saved stops, numbered 1..n, connected in time order so you can see your personal route. A counter badge on the Itinerary nav tab shows how many items you've saved.
+2. **Persona-specific parade routes on the map.** As well as the single red parade line, the map shows the recommended way to follow the itinary based on who  you're with eg. what you have selected
+3. **Build your own agenda.** Every programme item and parade stop gets an add/remove control. Saved items appear in a "My Day" list on the Itinerary page, ordered by time, with walking time between consecutive items and a warning sticker when two picks can't be reached in time at your pace. The map gains a "MY DAY" filter that shows only your saved stops, numbered 1..n, connected in time order so you can see your personal route. A counter badge on the Itinerary nav tab shows how many items you've saved. The route for your my day will appear on the map
 
 ## Page structure
 
@@ -28,7 +21,6 @@
 - Move `SessionProvider` from `src/routes/index.tsx` into `src/routes/__root.tsx` so session state survives route changes; add `agenda: string[]` (POI ids) with `toggleAgenda`/`isInAgenda` to `src/state/session.tsx`, persisted to `localStorage` and hydrated in an effect to avoid SSR mismatch.
 - New route files: `src/routes/parade.tsx`, `map.tsx`, `itinerary.tsx`, `settings.tsx`, each with its own `head()` metadata; `index.tsx` keeps only the hero plus links. Reuse existing components unchanged where possible.
 - Rewrite `BottomNav.tsx` to use `<Link to="...">` with `activeProps` styling instead of `scrollIntoView`.
-- Add `PERSONA_PARADE_ROUTES: Record<Persona, { stopIds: string[]; label: string; note: string; color: string; dash?: string }>` to `src/data/festival.ts`, derived from existing `PARADE_STOPS` (wheelchair variant restricted to step-free/accessible-viewing points). Draw them in `MapCanvasClient.tsx` as extra `Polyline`s.
 - Agenda layer in `MapCanvasClient.tsx`: numbered pins for saved POIs plus a dashed polyline in time order; new `"my_day"` filter in `FestivalMap.tsx`.
 - New `MyDayList.tsx` component for the saved agenda with per-leg walking times via existing `distanceKm`/`walkMinutes` helpers.
 - No backend needed; all data stays local.
