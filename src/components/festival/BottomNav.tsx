@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { MapPin, Route as RouteIcon, CalendarDays, Settings, Home } from "lucide-react";
+import { MapPin, Route as RouteIcon, CalendarDays, Home } from "lucide-react";
 import { useSession } from "@/state/session";
 
 const TABS = [
@@ -7,7 +7,6 @@ const TABS = [
   { to: "/parade", label: "PARADE", icon: RouteIcon },
   { to: "/map", label: "MAP", icon: MapPin },
   { to: "/itinerary", label: "MY DAY", icon: CalendarDays },
-  { to: "/settings", label: "SETUP", icon: Settings },
 ] as const;
 
 export function BottomNav() {
@@ -42,3 +41,4 @@ export function BottomNav() {
     </nav>
   );
 }
+

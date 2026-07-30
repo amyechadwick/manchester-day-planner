@@ -9,17 +9,11 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ParadeRouteImport } from './routes/parade'
 import { Route as MapRouteImport } from './routes/map'
 import { Route as ItineraryRouteImport } from './routes/itinerary'
 import { Route as IndexRouteImport } from './routes/index'
 
-const SettingsRoute = SettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ParadeRoute = ParadeRouteImport.update({
   id: '/parade',
   path: '/parade',
@@ -46,14 +40,12 @@ export interface FileRoutesByFullPath {
   '/itinerary': typeof ItineraryRoute
   '/map': typeof MapRoute
   '/parade': typeof ParadeRoute
-  '/settings': typeof SettingsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/itinerary': typeof ItineraryRoute
   '/map': typeof MapRoute
   '/parade': typeof ParadeRoute
-  '/settings': typeof SettingsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -61,14 +53,13 @@ export interface FileRoutesById {
   '/itinerary': typeof ItineraryRoute
   '/map': typeof MapRoute
   '/parade': typeof ParadeRoute
-  '/settings': typeof SettingsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/itinerary' | '/map' | '/parade' | '/settings'
+  fullPaths: '/' | '/itinerary' | '/map' | '/parade'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/itinerary' | '/map' | '/parade' | '/settings'
-  id: '__root__' | '/' | '/itinerary' | '/map' | '/parade' | '/settings'
+  to: '/' | '/itinerary' | '/map' | '/parade'
+  id: '__root__' | '/' | '/itinerary' | '/map' | '/parade'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,18 +67,10 @@ export interface RootRouteChildren {
   ItineraryRoute: typeof ItineraryRoute
   MapRoute: typeof MapRoute
   ParadeRoute: typeof ParadeRoute
-  SettingsRoute: typeof SettingsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/settings': {
-      id: '/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof SettingsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/parade': {
       id: '/parade'
       path: '/parade'
@@ -124,7 +107,6 @@ const rootRouteChildren: RootRouteChildren = {
   ItineraryRoute: ItineraryRoute,
   MapRoute: MapRoute,
   ParadeRoute: ParadeRoute,
-  SettingsRoute: SettingsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

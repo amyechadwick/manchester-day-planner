@@ -47,8 +47,10 @@ export function AmenityFinder() {
       return ["ACCESSIBLE TOILETS", "TRANSPORT"].includes(title);
     if (persona === "families")
       return ["FOOD", "FIRST AID"].includes(title);
+    if (persona === "foodie") return title === "FOOD";
     return title === "FOOD";
   };
+
 
   return (
     <section className="px-5 py-12 bg-brand-cream border-t-4 border-brand-ink">
