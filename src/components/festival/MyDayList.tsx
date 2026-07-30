@@ -5,8 +5,17 @@ import { distanceKm, walkMinutes, formatMinutes, formatClock } from "@/lib/dista
 import { useSession } from "@/state/session";
 
 export function MyDayList() {
-  const { agenda, toggleAgenda, clearAgenda, userLocation, walkKmh, persona, simNow } =
-    useSession();
+  const {
+    agenda,
+    toggleAgenda,
+    clearAgenda,
+    userLocation,
+    walkKmh,
+    persona,
+    simNow,
+    trackSelected,
+    chooseMyOwnDay,
+  } = useSession();
 
   const items = useMemo(() => {
     const picked = POIS.filter((p) => agenda.includes(p.id));
@@ -46,6 +55,24 @@ export function MyDayList() {
 
   return (
     <div className="space-y-3">
+      {trackSelected && (
+        <div className="border-2 border-brand-ink bg-brand-yellow p-4">
+          <p className="font-display text-2xl leading-none">
+            {PERSONAS[persona].label.toUpperCase()} TRACK LOADED
+          </p>
+          <p className="text-xs opacity-80 mt-1">
+            This itinerary doesn't work for you? Pick your own.
+          </p>
+          <button
+            type="button"
+            onClick={chooseMyOwnDay}
+            className="mt-3 w-full font-display text-2xl bg-brand-ink text-brand-cream py-2 border-2 border-brand-ink hover:bg-brand-red transition"
+          >
+            CHOOSE MY OWN DAY
+          </button>
+        </div>
+      )}
+
       <div className="flex items-center justify-between">
         <p className="text-[10px] uppercase font-bold tracking-widest opacity-60">
           {items.length} saved · walking times at {PERSONAS[persona].label.toLowerCase()} pace

@@ -3,7 +3,7 @@
 ## What changes for the user
 
 1. **Picking a track fills My Day for you.** Selecting a track on the home page automatically loads that track's stops (all of them, in time order) into My Day. Switching tracks swaps the itinerary for the new track's stops. My Day is no longer empty by default.
-2. **A clear escape hatch.** Above/below the track itinerary on the Itinerary page there's a prompt: "This itinerary doesn't work for you? Pick your own." with a button **CHOOSE MY OWN DAY**. Pressing it clears My Day, deselects the track on the home page, and leaves you free to add items yourself from the programme and parade pages.
+2. **A clear escape hatch.** Above/below the track itinerary on the my day there's a prompt: "This itinerary doesn't work for you? Pick your own." with a button **CHOOSE MY OWN DAY**. Pressing it clears My Day, deselects the track on the home page, and leaves you free to add items yourself from the programme and parade pages.
 3. **No track selected state.** With no track chosen, the home page track buttons are all unselected, the map's track-route layer is hidden, and My Day only contains what you add manually.
 4. **"Picked for you" removed** from the programme list; boosted events keep no special label.
 

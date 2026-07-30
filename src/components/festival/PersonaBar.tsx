@@ -12,7 +12,7 @@ const ORDER: Persona[] = [
 ];
 
 export function PersonaBar() {
-  const { persona, setPersona } = useSession();
+  const { persona, setPersona, trackSelected } = useSession();
 
   return (
     <nav className="bg-white border-b-4 border-brand-ink px-3 py-3">
@@ -22,7 +22,7 @@ export function PersonaBar() {
       <div className="grid grid-cols-4 gap-2">
         {ORDER.map((id) => {
           const p = PERSONAS[id];
-          const active = persona === id;
+          const active = trackSelected && persona === id;
           return (
             <button
               key={id}

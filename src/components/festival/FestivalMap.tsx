@@ -44,11 +44,21 @@ export function FestivalMap({
   active: FilterId;
   onActiveChange: (f: FilterId) => void;
 }) {
-  const { agenda, persona } = useSession();
+  const { agenda, persona, trackSelected } = useSession();
   const [showHeatmap, setShowHeatmap] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
+
+  // The track layer only exists while a track is selected.
+  useEffect(() => {
+    if (!trackSelected && active === "track") onActiveChange("my_day");
+  }, [trackSelected, active, onActiveChange]);
+
+  const filters = useMemo(
+    () => (trackSelected ? FILTERS : FILTERS.filter((f) => f.id !== "track")),
+    [trackSelected],
+  );
 
   const visibleKinds = useMemo(
     () => FILTERS.find((f) => f.id === active)!.kinds,
@@ -95,7 +105,7 @@ export function FestivalMap({
       </div>
 
       <div className="flex gap-2 overflow-x-auto pb-4 -mx-5 px-5 no-scrollbar">
-        {FILTERS.map((f) => (
+        {filters.map((f) => (
           <button
             key={f.id}
             type="button"
@@ -146,7 +156,7 @@ export function FestivalMap({
         </div>
       )}
 
-      {active === "track" && (
+      {active === "track" && trackSelected && (
         <div className="mt-6 border-2 border-brand-ink bg-brand-yellow p-4 space-y-4">
           <div>
           <p className="font-display text-2xl leading-none">
