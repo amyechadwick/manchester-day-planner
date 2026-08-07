@@ -12,7 +12,7 @@ A mobile-first festival companion for Manchester Day 2026 — real-time itinerar
 
 ## Motivation
 
-I built Manchester Day 2026 Companion to practice vibe coding and build testable proof-of-concepts.
+I built Manchester Day 2026 Companion inital as part of a a Hackathon with 4 other product managers at a ProductTank event, I attended to gain knowledge and expertise from those in my team about product thinking application to a problem, building a PRD and how others build testable proof-of-concepts utilising AI. I later have developed the prototpe further to have improved features for the users, putting my learning to the test.
 
 ## What you can do
 
