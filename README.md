@@ -1,3 +1,6 @@
+# Manchester Day 2026 Companion
+
+A mobile-first festival companion for Manchester Day 2026 — real-time itinerary, persona-based tracks, interactive map, and a social photo feed.
 
 <img width="943" height="879" alt="Screenshot 2026-08-07 at 21 03 49" src="https://github.com/user-attachments/assets/a5ec17ba-0a1c-428a-8256-e9d483c52f92" />
 <img width="955" height="883" alt="Screenshot 2026-08-07 at 21 04 19" src="https://github.com/user-attachments/assets/2bf07c86-46d5-47cc-8baa-f2035881b515" />
@@ -5,10 +8,6 @@
 <img width="945" height="878" alt="Screenshot 2026-08-07 at 21 05 44" src="https://github.com/user-attachments/assets/850a2c21-a74d-4e76-964f-4a22e67b3965" />
 <img width="937" height="877" alt="Screenshot 2026-08-07 at 21 06 06" src="https://github.com/user-attachments/assets/29759dcd-805f-4584-98a7-fd6111a52aac" />
 <img width="554" height="877" alt="Screenshot 2026-08-07 at 21 06 39" src="https://github.com/user-attachments/assets/988d12c7-745a-4b5b-9283-ab94a37b3f50" />
-
-# Manchester Day 2026 Companion
-
-A mobile-first festival companion for Manchester Day 2026 — real-time itinerary, persona-based tracks, interactive map, and a social photo feed.
 
 ## Motivation
 
